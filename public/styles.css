@@ -1,0 +1,258 @@
+/* Main layout */
+/* Footer */
+
+footer {
+    position: fixed;
+    right:0 ;
+    bottom: 0;
+    width: 100%;
+  }
+  .gigbtn{
+    border: #290c5c 2px solid;
+    color:white;
+    width: fit-content;
+    padding: 3px;
+    background-color: #290c5c;
+    transition:0.3s;
+    -webkit-transition:0.3s;
+    -moz-transition:0.3s;
+    -ms-transition:0.3s;
+    -o-transition:0.3s;
+  }
+  .gigbtn:hover{
+    background-color: #05020a;
+    transition:0.3s;
+    -webkit-transition:0.3s;
+    -moz-transition:0.3s;
+    -ms-transition:0.3s;
+    -o-transition:0.3s;
+}
+.gigbtn:active{
+    font-size: 18px;
+    transition:0.3s;
+    -webkit-transition:0.3s;
+    -moz-transition:0.3s;
+    -ms-transition:0.3s;
+    -o-transition:0.3s;
+}
+
+.regbtn{
+    border: #727272 0px solid;
+    color:#29134d;
+    border-radius: 50px;
+    padding: 5px;
+    background-color: #bdb7c7;
+    transition:0.3s;
+    -webkit-transition:0.3s;
+    -moz-transition:0.3s;
+    -ms-transition:0.3s;
+    -o-transition:0.3s;
+    -webkit-border-radius: 50px;
+    -moz-border-radius: 50px;
+    -ms-border-radius: 50px;
+    -o-border-radius: 50px;
+}
+  .regbtn:hover{
+    background-color: #29134d;
+    color: white;
+    font-size: 18px;
+    transition:0.3s;
+    -webkit-transition:0.3s;
+    -moz-transition:0.3s;
+    -ms-transition:0.3s;
+    -o-transition:0.3s;
+}
+
+ul li {
+    padding:5px;
+}
+
+  /* Gigs layout 
+  Gigs card */
+  .card-bg{
+      background: rgb(204, 196, 196);
+  }
+  a{
+      text-decoration: none;
+  }
+  .logo{
+      border-radius: 100px;
+      -webkit-border-radius: 100px;
+      -moz-border-radius: 100px;
+      -ms-border-radius: 100px;
+      -o-border-radius: 100px;
+}
+  
+  .gig-title{
+    color:#290c5c;
+    border: black 0px solid; border-radius:300px;
+    font-size: smaller; 
+    padding:5px;
+    margin-right:10px;
+  } 
+  .gig-title:hover{
+    color:white;
+    background-color: #290c5c;
+    transition:0.15s;
+    -webkit-transition:0.15s;
+    -moz-transition:0.15s;
+    -ms-transition:0.15s;
+    -o-transition:0.15s;
+} 
+.tags-main{
+    border: black 1px solid; border-radius:300px; 
+    background-color:rgba(24, 13, 167, 0.315); 
+    font-size: 14px; margin-right: 5px; 
+    padding: 0px;
+    }
+    .tags-main:hover{
+        background-color: #290c5c;
+        transition:0.3s;
+        -webkit-transition:0.3s;
+        -moz-transition:0.3s;
+        -ms-transition:0.3s;
+        -o-transition:0.3s;
+    }
+
+    .tags-main a{
+        color:black;
+    }
+    .tags-main a:hover{
+        color:white;
+    }
+
+    .list-price{
+        font-weight: 600;
+        color:#000000;
+        background-color: #adadad;
+        padding: 3px;
+        border: solid 1px black;
+        border-radius: 40px;
+        -webkit-border-radius: 40px;
+        -moz-border-radius: 40px;
+        -ms-border-radius: 40px;
+        -o-border-radius: 40px; 
+    }
+    .list-gig{
+        font-weight: 600;
+        color:#2623f1;
+        background-color: #bdb0b0;
+        padding: 3px;
+        border: solid 1px black;
+        border-radius: 40px;
+        -webkit-border-radius: 40px;
+        -moz-border-radius: 40px;
+        -ms-border-radius: 40px;
+        -o-border-radius: 40px;
+}
+    .list-job{
+        font-weight: 600;
+        color:#fd1111;
+        background-color: #bdb0b0;
+        padding: 3px;
+        border: solid 1px black;
+        border-radius: 40px;
+        -webkit-border-radius: 40px;
+        -moz-border-radius: 40px;
+        -ms-border-radius: 40px;
+        -o-border-radius: 40px;
+}
+.list-gig:hover{
+    color:#efedf1;
+    font-size: 18px;
+    background-color: #030303;
+    transition:0.1s;
+    -webkit-transition:0.1s;
+    -moz-transition:0.1s;
+    -ms-transition:0.1s;
+    -o-transition:0.1s;
+}
+.list-job:hover{
+    color:#efedf1;
+    font-size: 18px;
+    background-color: #030303;
+    transition:0.1s;
+    -webkit-transition:0.1s;
+    -moz-transition:0.1s;
+    -ms-transition:0.1s;
+    -o-transition:0.1s;
+}
+  /* Gig layout... */
+  .image{
+    border-radius: 500px;
+    border: #290c5c 3px solid;
+    }
+    .back-btn{
+        position: fixed;
+        margin-left: 10px;
+        margin-top: 10px;
+        font-size:16px;
+        border: black 1px solid;
+        padding: 15px ;
+        border-radius: 300px;
+    }
+    .back-btn:hover{
+        background: gray;
+    }
+    .tags{
+        border: black 1px solid; border-radius:300px; 
+        background-color:black; font-size: 14px; margin-right: 5px; 
+    }
+    
+
+    .tags a{
+        color:white;
+    }
+
+    /* gigs search */
+    .search{
+        border:#290c5c 2px solid;
+        padding:5px;
+        border-radius: 15px;
+        -webkit-border-radius: 15px;
+        -moz-border-radius: 15px;
+        -ms-border-radius: 15px;
+        -o-border-radius: 15px;
+}
+.search-btn{
+    border: #290c5c 2px solid;
+    border-radius: 10px;
+    color:black;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+    background-color: white;
+    transition:0.3s;
+    -webkit-transition:0.3s;
+    -moz-transition:0.3s;
+    -ms-transition:0.3s;
+    -o-transition:0.3s;
+}
+    
+.search-btn:hover{
+    color:white;
+    background-color: #290c5c;
+
+}
+/* Form */
+.form{
+    background-color:#ececec;
+    padding: 10px;
+}
+
+/* Notifications page */
+.message{
+    text-decoration: none;
+    color:#000000;
+    cursor: pointer;
+}
+.message:hover{
+    color:#131212;
+    font-size: 18px;
+    transition: 0.3;
+    -webkit-transition: 0.3;
+    -moz-transition: 0.3;
+    -ms-transition: 0.3;
+    -o-transition: 0.3;
+}
