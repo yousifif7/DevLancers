@@ -12,41 +12,44 @@
     }
 </style>
 
-@section('style2') active text-danger @endsection
+@section('style2')
+    active text-danger
+@endsection
 @section('contenttype')
     <div class="container">
         <h4 class="text-primary text-center">This is the messages you've sent or replied </h4>
         <?php
-            $messages = App\Models\Requests::where('user_id', '=', Auth::user()->id)->get();
+        $messages = App\Models\Requests::where('user_id', '=', Auth::user()->id)->get();
         ?>
-        <h6 class="text-center">You've sent {{count($messages)}} messages</h6>
+        <h6 class="text-center">You've sent {{ count($messages) }} messages</h6>
         <br>
         @unless (count($messages) == 0)
             <table class="table table-striped table-bordered">
                 <thead>
                     <tr>
                         <th>Sent to</th>
-                        <th>Post</th>
+                        <th>Message</th>
                         <th>Time</th>
-                        <th>Action</th>
+                        <th>Delete</th>
+                        <th>Chat</th>
                     </tr>
                 </thead>
                 @foreach ($messages as $message)
                     <tbody>
                         <?php
-                            $messageTime = $message->created_at->setTimezone('Asia/Gaza');
-                            $gig = App\Models\Gigs::find($message->gig_id);
-                            $reciever = App\Models\User::find($message->reciever);
+                        $messageTime = $message->created_at->setTimezone('Asia/Gaza');
+                        $gig = App\Models\Gigs::find($message->gig_id);
+                        $reciever = App\Models\User::find($message->reciever);
                         ?>
                         <td>
                             <h5>
-                                <a class="" href="/users/{{ $reciever->id }}"
-                                    style="text-decoration: none;">{{ $reciever->name }}
+                                <a href="/reply/{{ $reciever->id }}" class="text-dark" style="text-decoration: none;">
+                                    {{ $reciever->name }}
                                 </a>
                             </h5>
                         </td>
                         <td>
-                            @if ($message->gig_id) 
+                            @if ($message->gig_id)
                                 <a href="/gigs/{{ $gig->id }}" class="message">
                                     <p>{{ $message->message }}</p>
                                 </a>
@@ -58,23 +61,21 @@
                             {{ $messageTime->diffForHumans() }}
                         </td>
                         <td>
-                            <div class="row w-50">
-                                <div class="col-4">
-                                    <form method="POST" action="/request/{{$message->id}}">
-                                        @csrf
-                                        <button class="btn btn-danger btn-sm">
-                                            <i class="fa-solid fa-trash"></i>
-                                        </button>
-                                    </form>
-                                </div>
-                                <div class="col">
-                                    <div class="col">
-                                        <a href="/reply/{{$message->reciever}}" class="btn btn-success btn-sm" >
-                                            <i class="fa-solid fa-reply"></i>
-                                        </a>
-                                    </div>                                     
-                                </div>
-                            </div>  
+                            <div class="col">
+                                <form method="POST" action="/request/{{ $message->id }}">
+                                    @csrf
+                                    <button class="btn btn-danger btn-sm">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="col">
+                                <a href="/reply/{{ $message->reciever }}" class="btn btn-primary btn-sm">
+                                    <i class="fa-solid fa-reply"></i>
+                                </a>
+                            </div>
                         </td>
                     </tbody>
                 @endforeach

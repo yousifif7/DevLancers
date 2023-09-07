@@ -4,6 +4,7 @@ use App\Models\Gigs;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GigController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\TasksController;
 use App\Http\Controllers\RequestsController;
 
 /*
@@ -35,7 +36,7 @@ Route::put('gigs/{gig}', [GigController::class , 'update'])->middleware('auth');
 Route::post('gigs/{gig}', [GigController::class , 'destroy'])->middleware('auth');
 
 //Show profile for each user
-Route::get('/gigs/profile', [GigController::class , 'profile'])->middleware('auth');
+Route::get('/gigs/profile', [GigController::class , 'profile'])->middleware('auth')->name('profile');
 
 // show a gig by ID
 Route::get('/gigs/{gig}', [GigController::class , 'show']);
@@ -80,6 +81,22 @@ Route::post('request/recieved/{id}', [RequestsController::class , 'destroyAllRec
 
 //Store a gig after creating it
 Route::post('/requests', [RequestsController::class , 'store'])->middleware('auth');
+
+//return user tasks
+Route::get('/user/tasks/{id}', [TasksController::class , 'tasks'])->middleware("auth");
+
+//store new task
+Route::post('/tasks/create', [TasksController::class , 'store']);
+
+//store new task
+Route::post('/task/edit/{task}', [TasksController::class , 'update']);
+
+//payment routes.
+Route::get('/checkout', 'App\Http\Controllers\StripeController@checkout')->name('checkout');
+Route::post('/session', 'App\Http\Controllers\StripeController@session')->name('session');
+Route::get('/success', 'App\Http\Controllers\StripeController@success')->name('success');
+
+
 
 
 
