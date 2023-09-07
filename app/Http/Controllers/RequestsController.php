@@ -52,7 +52,8 @@ class RequestsController extends Controller
         ]);
 
         $user=User::find($request->user_id);
-        return view('messages.notifications', ['user'=> $user])->with('message','Message sent successfully!');
+        // return view('messages.notifications', ['user'=> $user])->with('message','Message sent successfully!');
+        return back()->with('message','Message sent successfully!');
     }
 
     /**

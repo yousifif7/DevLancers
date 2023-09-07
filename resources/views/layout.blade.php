@@ -27,27 +27,19 @@
                 @auth
                     <?php
                     $messages = App\Models\Requests::where('reciever', '=', Auth::user()->id)->get();
+                    if(Auth::user()->acc_type ==1){
+
+                        $tasks = App\Models\Tasks::where('user_id', '=', Auth::user()->id)->get();
+                    }else{
+                        $tasks = App\Models\Tasks::where('owner', '=', Auth::user()->id)->get();
+
+                    }
                     ?>
 
                     <li class="nav-item" style="margin-top:5px;">
                         <div class="container">
-                            <a class="regbtn w-100" href="/gigs/create">Create POST</a>
+                            <a class="regbtn w-100" href="/gigs/create">POST</a>
                         </div>
-                    </li>
-                    <li class="nav-item" style="margin-top:5px;">
-                        <i class="fa-solid fa-user"></i>
-                        <a class="" href="/gigs/profile" style="text-decoration:none;">{{ Auth::user()->name }}</a>
-                    </li>
-                    <li class="nav-item" style="margin-top:5px;">
-                        <a class="" href="/user/notifications/{{ Auth::user()->id }}"
-                            style="text-decoration:none; color:red;">
-                            @if (count($messages) == 0)
-                                <i class="fa-solid fa-bell" style="color:black;"></i>
-                            @else
-                                <i class="fa-solid fa-bell fa-shake" style="color:black;"></i>
-                            @endif
-                            {{ count($messages) }}
-                        </a>
                     </li>
                     <li class="nav-item">
                         <form method="post" action="/logout">
@@ -66,6 +58,33 @@
             </ul>
         </div>
     </nav>
+    @auth
+        <ul class="nav justify-content-center">
+            <li class="nav-item" style="margin-top:5px;padding:10px ">
+                <a class="" href="/gigs/profile" style="text-decoration:none;">
+                <i class="fa-solid fa-user" style="color:black"></i>
+                <em>{{ Auth::user()->name }}</em></a>
+            </li>
+            <li class="nav-item" style="margin-top:5px; padding:10px">
+                <a class="" href="/user/notifications/{{ Auth::user()->id }}" style="text-decoration:none;">
+                    @if (count($messages) == 0)
+                        <i class="fa-solid fa-bell" style="color:black;"></i>
+                    @else
+                        <i class="fa-solid fa-bell fa-shake" style="color:black;"></i>
+                    @endif
+                    ({{ count($messages) }})
+                    <em>Notifications</em>
+                </a>
+            </li>
+            <li class="nav-item" style="margin-top:5px; padding:10px">
+                <a class="" href="/user/tasks/{{ Auth::user()->id }}" style="text-decoration:none;">
+                    <i class="fa-solid fa-list-check" style="color:black"></i>
+                    ({{count($tasks)}})
+                    <em>Tasks list</em>
+                </a>
+            </li>
+        </ul>
+    @endauth
     <main>
         @yield('createGig')
         @yield('content')

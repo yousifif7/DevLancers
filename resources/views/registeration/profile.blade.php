@@ -37,9 +37,9 @@
                         <hr>
 
                         @if (Auth::user()->acc_type == 1)
-                            <p class="text-muted mb-4">Business: <b class="text-success">Worker</b></p>
+                            <p class="text-muted mb-4">Account type: <b class="text-success">Worker</b></p>
                         @else
-                            <p class="text-muted mb-4">Business: <b class="text-warning">Client</b></p>
+                            <p class="text-muted mb-4">Account type: <b class="text-warning">Client</b></p>
                         @endif
                         <!-- Button to Open the Modal -->
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#GFG">
@@ -72,7 +72,7 @@
                     <br>
                     <div class="nav-item">
                         @if (Auth::user()->acc_type==1)
-                            <a class="btn btn-success w-100" href="/gigs/create" style="text-decoration: none;">Create GIG</a>
+                            <a class="btn btn-success w-100" href="/gigs/create" style="text-decoration: none;">Post GIG</a>
                         @else
                             <a class="btn btn-success w-100" href="/gigs/create" style="text-decoration: none;">Post Job</a>
                         @endif
