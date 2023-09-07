@@ -154,7 +154,7 @@
                             <form method="POST" action="/request/{{ $message->id }}">
                                 @csrf
                                 <button class="btn btn-danger btn-sm">
-                                    <i class="fa-solid fa-trash"></i>
+                                    <i class="fa-solid fa-trash"></i> Delete
                                 </button>
                             </form>
                         </td>

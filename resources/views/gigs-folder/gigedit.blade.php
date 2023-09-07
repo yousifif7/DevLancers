@@ -61,7 +61,7 @@
                 <div class="form-outline mb-4">
                     <label class="form-label" for="form6Example8"><strong>Basic salary</strong></label>
                     <input type="number" id="form6Example8" class="form-control" name="salary" placeholder="100$" 
-                    value="{{$gig->salary}}" min="5" max="100" />
+                    value="{{$gig->salary}}" />
 
                     @error('salary')
                         <p class="text-danger">{{$message}}</p>
