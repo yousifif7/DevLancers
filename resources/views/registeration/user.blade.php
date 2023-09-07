@@ -37,9 +37,9 @@
                         <hr>
 
                         @if ($user->acc_type == 1)
-                            <p class="text-muted mb-4">Business: <b class="text-success">Worker</b></p>
+                            <p class="text-muted mb-4">Account type: <b class="text-success">Worker</b></p>
                         @else
-                            <p class="text-muted mb-4">Business: <b class="text-warning">Client</b></p>
+                            <p class="text-muted mb-4">Account type: <b class="text-warning">Client</b></p>
                         @endif
                         <!-- Button to Open the Modal -->
                         @if (Auth::user()->id == $user->id)
@@ -47,7 +47,8 @@
                                 Edit bio
                             </button>
                         @else
-                            <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal"
+                                data-bs-target="#exampleModal">
                                 <i class="fa-solid fa-message"></i>Send message
                             </button>
                         @endif
@@ -165,39 +166,39 @@
 
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h1 class="modal-title fs-5" id="exampleModalLabel">Reply to a message</h1>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Reply to a message</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h5 class="text-primary">You're about to send a message, Careful!</h5>
+                        <form class="form" method="POST" action="/requests" enctype="multipart/form-data">
+                            @csrf
+                            <input hidden value="{{ Auth::user()->id }}" name="user_id">
+
+                            {{-- <input hidden value="{{$message->gig_id}}" name="gig_id"> --}}
+
+                            <input hidden value="{{ $user->id }}" name="reciever">
+
+                            <input hidden value="{{ Auth::user()->name }}" name="sender">
+
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Sending to</label>
+                                <p><b>{{ $user->name }}</b></p>
+                            </div>
+                            <div class="mb-3">
+                                <label for="exampleFormControlTextarea1" class="form-label">Message</label>
+                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="message">{{ old('message') }}</textarea>
+                                @error('message')
+                                    <p class="text-danger">{{ $message }}</p>
+                                @enderror
+                            </div>
+                            <button class="btn btn-success" type="submit">Send</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </form>
+                    </div>
                 </div>
-                <div class="modal-body">
-                    <h5 class="text-primary">You're about to send a message, Careful!</h5>
-                    <form class="form" method="POST" action="/requests" enctype="multipart/form-data">
-                        @csrf
-                        <input hidden value="{{Auth::user()->id}}" name="user_id">
-    
-                        {{-- <input hidden value="{{$message->gig_id}}" name="gig_id"> --}}
-    
-                        <input hidden value="{{$user->id}}" name="reciever">
-    
-                        <input hidden value="{{Auth::user()->name}}" name="sender">
-    
-                        <div class="mb-3">
-                            <label for="exampleFormControlInput1" class="form-label">Sending to</label>
-                            <p><b>{{$user->name}}</b></p>
-                        </div>
-                        <div class="mb-3">
-                            <label for="exampleFormControlTextarea1" class="form-label">Message</label>
-                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="message">{{ old('message') }}</textarea>
-                            @error('message')
-                                <p class="text-danger">{{ $message }}</p>
-                            @enderror
-                        </div>
-                        <button class="btn btn-success" type="submit">Send</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    </form>
-                </div>
-              </div>
             </div>
-          </div>
+        </div>
     @endsection

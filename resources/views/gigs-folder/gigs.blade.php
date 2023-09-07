@@ -51,7 +51,7 @@
                                         </a>
                                     @else 
                                         <a href="/gigs/{{$gig->id}}">
-                                            <img src={{asset('images/job1.png')}} class="card-img-top" style="object-fit: cover">
+                                            <img src={{asset('images/job.png')}} class="card-img-top" style="object-fit: cover">
                                         </a>   
                                     @endif
                                 @endif

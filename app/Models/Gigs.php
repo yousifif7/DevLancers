@@ -54,4 +54,7 @@ class Gigs extends Model {
     public function requests(){
         return $this->hasMany(Requests::class, 'gig_id');
     }
+    public function tasks(){
+        return $this->hasMany(Requests::class, 'gig_id');
+    }
 }

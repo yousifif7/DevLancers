@@ -10,9 +10,9 @@
             <div class="col"></div>
             <div class="col-10">
                 @if (Auth::user()->acc_type == 1)
-                    <h2 class="text-center text-primary">Creating a gig</h2>
+                    <h2 class="text-center text-primary">Posting a gig</h2>
                 @else
-                    <h2 class="text-center text-primary">Creating a Job</h2>
+                    <h2 class="text-center text-primary">Posting a Job</h2>
                 @endif
                 <form class="form" method="POST" action="/gigs" enctype="multipart/form-data"><br>
                     @csrf
