@@ -7,10 +7,6 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
 @section('content')
-    <?php
-    $gigs = App\Models\Gigs::where('user_id', '=', Auth::user()->id)->get();
-    ?>
-
     @if (session()->has('message'))
         <div class="alert alert-warning alert-dismissible fade show container" role="alert">
             {{ session('message') }}
@@ -26,6 +22,9 @@
                         {{-- <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
                     class="rounded-circle img-fluid" style="width: 150px;"> --}}
                         <h5 class="my-3">{{ Auth::user()->name }}</h5>
+                        @if (Auth::user()->isWorker() && Auth::user()->headline)
+                            <p class="text-primary fw-semibold mb-2">{{ Auth::user()->headline }}</p>
+                        @endif
                         @if (Auth::user()->bio)
                             <p class="text-muted mb-1w">{{ Auth::user()->bio }}</p>
                         @endif
@@ -67,7 +66,10 @@
                 </div>
             </div>
             <div class="col-lg-9">
+                <h5 class="fw-semibold mb-3">Your dashboard</h5>
+                @include('stats.user-dashboard', ['stats' => $stats])
                 <hr class="dropdown-divider">
+                <h5 class="fw-semibold mb-3">{{ Auth::user()->isWorker() ? 'My gigs' : 'My jobs' }}</h5>
                 @unless ($gigs->isEmpty())
                     <br>
                     <div class="nav-item">
@@ -80,20 +82,32 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th scope="col">Gig title</th>
+                                <th scope="col">Title</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Proposals</th>
                                 <th scope="col">Edit</th>
                                 <th scope="col">Delete</th>
                             </tr>
                         </thead>
                         @foreach ($gigs as $gig)
                             <tbody>
+                                <tr>
                                 <td>
-                                    <a class="card-body" href="/gigs/{{ $gig->id }}">
-                                        <h5>
-                                            <a class="" href="/gigs/{{ $gig->id }}"
-                                                style="text-decoration: none;">{{ $gig->title }}</a>
-                                        </h5>
-                                    </a>
+                                    <a href="/gigs/{{ $gig->id }}" style="text-decoration: none;">{{ $gig->title }}</a>
+                                </td>
+                                <td>
+                                    <span class="badge bg-{{ $gig->status === 'open' ? 'success' : ($gig->status === 'filled' ? 'primary' : 'dark') }}">
+                                        {{ ucfirst($gig->status) }}
+                                    </span>
+                                </td>
+                                <td>
+                                    @if ($gig->proposals_count > 0)
+                                        <a href="/gigs/{{ $gig->id }}/proposals" class="btn btn-sm btn-outline-primary">
+                                            {{ $gig->proposals_count }}
+                                        </a>
+                                    @else
+                                        0
+                                    @endif
                                 </td>
                                 <td>
                                     <a href="/gigs/{{ $gig->id }}/edit" class="btn btn-sm btn-success">
@@ -108,6 +122,7 @@
                                         </button>
                                     </form>
                                 </td>
+                                </tr>
                             </tbody>
                         @endforeach
                     </table>

@@ -79,6 +79,100 @@
         </div>
     </div>
 
+    @if (Auth::user()->acc_type == 1)
+        <hr>
+        <p class="text-secondary mb-3"><b>Freelancer profile</b></p>
+
+        <div class="d-flex flex-row align-items-center mb-4">
+            <div class="form-outline flex-fill mb-0">
+                <label class="form-label" for="headline">Professional headline</label>
+                <input type="text" id="headline" class="form-control" name="headline"
+                    placeholder="Senior Laravel Developer | API & SaaS"
+                    value="{{ Auth::user()->headline }}" maxlength="120">
+                @error('headline')
+                    <p class="text-danger">{{ $message }}</p>
+                @enderror
+            </div>
+        </div>
+
+        <div class="d-flex flex-row align-items-center mb-4">
+            <div class="form-outline flex-fill mb-0">
+                <label class="form-label" for="skills">Skills</label>
+                <textarea class="form-control" id="skills" rows="2" name="skills"
+                    placeholder="Laravel, PHP, Vue.js, REST APIs">{{ Auth::user()->skills }}</textarea>
+                <small class="text-muted">Separate with commas</small>
+                @error('skills')
+                    <p class="text-danger">{{ $message }}</p>
+                @enderror
+            </div>
+        </div>
+
+        <div class="d-flex flex-row align-items-center mb-4">
+            <div class="form-outline flex-fill mb-0">
+                <label class="form-label" for="experience_years">Years of experience</label>
+                <input type="number" id="experience_years" class="form-control" name="experience_years"
+                    min="0" max="60" value="{{ Auth::user()->experience_years }}">
+                @error('experience_years')
+                    <p class="text-danger">{{ $message }}</p>
+                @enderror
+            </div>
+        </div>
+
+        <div class="d-flex flex-row align-items-center mb-4">
+            <div class="form-outline flex-fill mb-0">
+                <label class="form-label" for="hourly_rate">Hourly rate ($)</label>
+                <input type="number" id="hourly_rate" class="form-control" name="hourly_rate"
+                    min="0" step="0.01" value="{{ Auth::user()->hourly_rate }}">
+                @error('hourly_rate')
+                    <p class="text-danger">{{ $message }}</p>
+                @enderror
+            </div>
+        </div>
+
+        <div class="d-flex flex-row align-items-center mb-4">
+            <div class="form-outline flex-fill mb-0">
+                <label class="form-label" for="education">Education</label>
+                <textarea class="form-control" id="education" rows="3" name="education">{{ Auth::user()->education }}</textarea>
+                @error('education')
+                    <p class="text-danger">{{ $message }}</p>
+                @enderror
+            </div>
+        </div>
+
+        <div class="d-flex flex-row align-items-center mb-4">
+            <div class="form-outline flex-fill mb-0">
+                <label class="form-label" for="certifications">Certifications</label>
+                <textarea class="form-control" id="certifications" rows="2" name="certifications"
+                    placeholder="AWS Certified, Laravel Certification">{{ Auth::user()->certifications }}</textarea>
+                @error('certifications')
+                    <p class="text-danger">{{ $message }}</p>
+                @enderror
+            </div>
+        </div>
+
+        <div class="d-flex flex-row align-items-center mb-4">
+            <div class="form-outline flex-fill mb-0">
+                <label class="form-label" for="portfolio_url">Portfolio URL</label>
+                <input type="url" id="portfolio_url" class="form-control" name="portfolio_url"
+                    value="{{ Auth::user()->portfolio_url }}" placeholder="https://yourportfolio.com">
+                @error('portfolio_url')
+                    <p class="text-danger">{{ $message }}</p>
+                @enderror
+            </div>
+        </div>
+
+        <div class="d-flex flex-row align-items-center mb-4">
+            <div class="form-outline flex-fill mb-0">
+                <label class="form-label" for="github_url">GitHub URL</label>
+                <input type="url" id="github_url" class="form-control" name="github_url"
+                    value="{{ Auth::user()->github_url }}" placeholder="https://github.com/username">
+                @error('github_url')
+                    <p class="text-danger">{{ $message }}</p>
+                @enderror
+            </div>
+        </div>
+    @endif
+
     <div class="d-flex flex-row align-items-center mb-4">
         <div class="form-outline flex-fill mb-0">
             <i class="fa-sharp fa-solid fa-location-dot"></i>

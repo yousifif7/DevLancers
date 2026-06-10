@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Gigs;
 use App\Models\User;
+use App\Models\Requests;
+use App\Services\UserStatsService;
+use App\Support\SeoMeta;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
@@ -16,7 +19,9 @@ class UserController extends Controller
      */
     public function index()
     {
-        return view('registeration.signup');
+        return view('registeration.signup', [
+            'seoMeta' => SeoMeta::privatePage('Sign Up', 'Create a DevLancer account as a developer freelancer or client.'),
+        ]);
     }
 
     /**
@@ -59,7 +64,9 @@ class UserController extends Controller
     //Log user out 
     public function login(){
 
-        return view('registeration.login');    
+        return view('registeration.login', [
+            'seoMeta' => SeoMeta::privatePage('Log In', 'Sign in to your DevLancer developer freelance account.'),
+        ]);
     }
 
     //Authenticate user to log in
@@ -104,34 +111,81 @@ class UserController extends Controller
 
         $request->validate([
             'name' => 'required',
-            'Gender' => '',
+            'gender' => 'nullable|string',
+            'headline' => 'nullable|string|max:120',
+            'skills' => 'nullable|string|max:2000',
+            'experience_years' => 'nullable|integer|min:0|max:60',
+            'education' => 'nullable|string|max:2000',
+            'certifications' => 'nullable|string|max:2000',
+            'portfolio_url' => 'nullable|url|max:500',
+            'github_url' => 'nullable|url|max:500',
+            'hourly_rate' => 'nullable|numeric|min:0|max:10000',
         ]);
 
         $user->update([
             'name' => $request->name,
-            'Gender' => $request->gender,
+            'gender' => $request->gender,
             'bio' => $request->bio,
             'address' => $request->address,
+            'headline' => $request->headline,
+            'skills' => $request->skills,
+            'experience_years' => $request->experience_years,
+            'education' => $request->education,
+            'certifications' => $request->certifications,
+            'portfolio_url' => $request->portfolio_url,
+            'github_url' => $request->github_url,
+            'hourly_rate' => $request->hourly_rate,
         ]);
         return redirect('/gigs/profile')->with('message','Profile updated successfully!');
     }
     
     //show user profile
-    public function userProfile($id){
-        $user = User::find($id);
-        return view('registeration.user', ['user'=> $user]);
+    public function userProfile($id)
+    {
+        $user = User::findOrFail($id);
+
+        return view('registeration.user', [
+            'user' => $user,
+            'gigs' => Gigs::where('user_id', $user->id)->withCount('proposals')->latest()->get(),
+            'reviews' => $user->reviewsReceived()->approved()->with(['reviewer', 'task'])->latest()->get(),
+            'averageRating' => $user->averageRating(),
+            'stats' => UserStatsService::for($user),
+            'seoMeta' => SeoMeta::user($user, UserStatsService::for($user)),
+        ]);
     }
 
-    //Recieved messages 
-    public function notifications($id){
-        $user = User::find($id);
-        return view('messages.notifications', ['user'=> $user]);
+    public function notifications($id)
+    {
+        if ((int) $id !== Auth::id()) {
+            abort(403, 'Unauthorized action');
+        }
+
+        $messages = Requests::where('reciever', Auth::id())
+            ->with(['gig', 'user', 'task'])
+            ->latest()
+            ->get();
+
+        return view('messages.notifications', [
+            'user' => Auth::user(),
+            'messages' => $messages,
+        ]);
     }
 
-    //Sent messages(replyes) by user
-    public function sent($id){
-        $user = User::find($id);
-        return view('messages.sent', ['user'=> $user]);
+    public function sent($id)
+    {
+        if ((int) $id !== Auth::id()) {
+            abort(403, 'Unauthorized action');
+        }
+
+        $messages = Requests::where('user_id', Auth::id())
+            ->with(['gig', 'receiverUser'])
+            ->latest()
+            ->get();
+
+        return view('messages.sent', [
+            'user' => Auth::user(),
+            'messages' => $messages,
+        ]);
     }
 
     /**
