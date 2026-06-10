@@ -44,8 +44,9 @@
                     <div class="d-flex flex-row align-items-center mb-4">
                       <div class="form-outline flex-fill mb-0">
                         <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
-                        <label class="form-label" for="form3Example4c">Password</label>
-                        <input type="password" id="form3Example4c" class="form-control" name="password"/>
+                        <label class="form-label" for="password">Password</label>
+                        <input type="password" id="password" class="form-control" name="password"/>
+                        <input type="checkbox" class="form-controll rounded" onclick="showpass()"> Show password
                         @error('password')
                           <p class="text-danger">{{$message}}</p>
                         @enderror
@@ -114,4 +115,14 @@
       </div>
     </div>
   </section>
+  <script>
+    function showpass(){
+      var element =document.getElementById("password");
+      if(element.type==="password"){
+        element.type="text";
+      }else{
+        element.type="password";
+      }
+    }
+  </script>
 @endsection

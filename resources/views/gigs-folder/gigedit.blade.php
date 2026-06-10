@@ -69,13 +69,59 @@
                 </div>
 
                 <div class="mb-3">
-                    <label for="formFile" class="form-label"><strong>Gig thumbnail / logo</strong></label>
-                    <input class="form-control" type="file" id="formFile" name="image">
-                    @if ($gig->image)
-                                <a href="/gigs/{{$gig->id}}">
-                                    <img src={{asset('storage/'.$gig->image)}} height="100px">
-                                </a>
+                    <label class="form-label"><strong>Current images</strong></label>
+                    @php $existingImages = $gig->media->where('type', 'image'); @endphp
+                    @if ($existingImages->isNotEmpty())
+                        <div class="d-flex flex-wrap gap-2 mb-2">
+                            @foreach ($existingImages as $media)
+                                <div class="position-relative text-center">
+                                    <img src="{{ $media->url() }}" height="80" class="rounded border">
+                                    <form method="POST" action="/gigs/media/{{ $media->id }}/delete" class="mt-1">
+                                        @csrf
+                                        <button type="submit" class="btn btn-sm btn-outline-danger">Remove</button>
+                                    </form>
+                                </div>
+                            @endforeach
+                        </div>
+                    @else
+                        <p class="text-muted small">No images yet.</p>
                     @endif
+                </div>
+
+                <div class="mb-3">
+                    <label for="formImages" class="form-label"><strong>Add images</strong> <small class="text-muted">(up to 6 total)</small></label>
+                    <input class="form-control" type="file" id="formImages" name="images[]" accept="image/jpeg,image/png,image/webp" multiple>
+                    @error('images.*')
+                        <p class="text-danger">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label"><strong>Current attachments</strong></label>
+                    @php $existingFiles = $gig->media->where('type', 'attachment'); @endphp
+                    @if ($existingFiles->isNotEmpty())
+                        <ul class="list-group mb-2">
+                            @foreach ($existingFiles as $media)
+                                <li class="list-group-item d-flex justify-content-between align-items-center py-2">
+                                    <a href="{{ $media->url() }}" target="_blank">{{ $media->original_name ?? basename($media->path) }}</a>
+                                    <form method="POST" action="/gigs/media/{{ $media->id }}/delete">
+                                        @csrf
+                                        <button type="submit" class="btn btn-sm btn-outline-danger">Remove</button>
+                                    </form>
+                                </li>
+                            @endforeach
+                        </ul>
+                    @else
+                        <p class="text-muted small">No attachments yet.</p>
+                    @endif
+                </div>
+
+                <div class="mb-3">
+                    <label for="formAttachments" class="form-label"><strong>Add attachments</strong> <small class="text-muted">(PDF, DOC, ZIP, etc.)</small></label>
+                    <input class="form-control" type="file" id="formAttachments" name="attachments[]" multiple>
+                    @error('attachments.*')
+                        <p class="text-danger">{{ $message }}</p>
+                    @enderror
                 </div>
                 <br>  
             

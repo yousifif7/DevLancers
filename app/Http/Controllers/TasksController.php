@@ -2,55 +2,33 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use App\Models\Tasks;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TasksController extends Controller
 {
-    public function update(Request $request,Tasks $task){
-        $task->update([
-            'user_id'=> $request->user_id,
-            'gig_id'=> $request->gig_id,
-            'owner'=> $request->owner,
-            'status'=> $request->status ,
-            'content'=> $request->content ,
-            'price'=> $request->price ,
-            'payment_flag'=> $request->payment_flag ,
-        
-        ]);
-        return back()->with('message','Task closed succesfully!');
-    }
-    public function tasks($id){
-        $user = User::find($id);
-        if($user->acc_type==1){
-        return view('/tasks/wotasks', ['user'=> $user]);
-            
-        }
-        return view('/tasks/cltasks', ['user'=> $user]);
-    }
-
-    public function store(Request $request)
+    public function tasks($id)
     {
-        $request->validate([
-            // 'user_id'=>'required',
-            // 'gig_id'=>'required',
-            // 'status'=>'required',
+        if ((int) $id !== Auth::id()) {
+            abort(403, 'Unauthorized action');
+        }
 
-        ]);
+        $user = Auth::user();
 
-        Tasks::create([
-            'user_id'=>$request->user_id,
-            'gig_id'=>$request->gig_id,
-            'status'=>$request->status,
-            'owner'=>$request->owner,
-            'content'=>$request->content,
-            'price'=>$request->price,
-            'payment_flag'=> $request->payment_flag ,
-            
-        ]);
+        if ($user->acc_type == 1) {
+            $tasks = Tasks::where('user_id', $user->id)
+                ->with(['gig', 'user', 'proposal', 'latestDeliverable', 'milestones'])
+                ->latest()
+                ->get();
 
-        return back()->with("message","User hired successfuly! Check you're tasks list.");
+            return view('/tasks/wotasks', ['user' => $user, 'tasks' => $tasks]);
+        }
+
+        $tasks = Tasks::where('owner', $user->id)
+            ->with(['gig', 'user', 'proposal', 'latestDeliverable', 'milestones'])
+            ->latest()
+            ->get();
+
+        return view('/tasks/cltasks', ['user' => $user, 'tasks' => $tasks]);
     }
-
 }
