@@ -18,9 +18,6 @@
 @section('contenttype')
     <div class="container">
         <h4 class="text-primary text-center">This is the messages you've sent or replied </h4>
-        <?php
-        $messages = App\Models\Requests::where('user_id', '=', Auth::user()->id)->get();
-        ?>
         <h6 class="text-center">You've sent {{ count($messages) }} messages</h6>
         <br>
         @unless (count($messages) == 0)
@@ -36,21 +33,17 @@
                 </thead>
                 @foreach ($messages as $message)
                     <tbody>
-                        <?php
-                        $messageTime = $message->created_at->setTimezone('Asia/Gaza');
-                        $gig = App\Models\Gigs::find($message->gig_id);
-                        $reciever = App\Models\User::find($message->reciever);
-                        ?>
+                        <tr>
                         <td>
                             <h5>
-                                <a href="/reply/{{ $reciever->id }}" class="text-dark" style="text-decoration: none;">
-                                    {{ $reciever->name }}
+                                <a href="/reply/{{ $message->reciever }}" class="text-dark" style="text-decoration: none;">
+                                    {{ $message->receiverUser->name ?? 'User' }}
                                 </a>
                             </h5>
                         </td>
                         <td>
-                            @if ($message->gig_id)
-                                <a href="/gigs/{{ $gig->id }}" class="message">
+                            @if ($message->gig_id && $message->gig)
+                                <a href="/gigs/{{ $message->gig->id }}" class="message">
                                     <p>{{ $message->message }}</p>
                                 </a>
                             @else
@@ -58,7 +51,7 @@
                             @endif
                         </td>
                         <td>
-                            {{ $messageTime->diffForHumans() }}
+                            {{ $message->created_at->setTimezone('Asia/Gaza')->diffForHumans() }}
                         </td>
                         <td>
                             <div class="col">
@@ -77,6 +70,7 @@
                                 </a>
                             </div>
                         </td>
+                        </tr>
                     </tbody>
                 @endforeach
             </table>
@@ -90,10 +84,9 @@
             </div>
         @else
             <h5 class="bg-light text-danger p-1">You didn't send any messages yet!</h5>
-        </div>
-    @endunless
+        @endunless
+    </div>
 
 @section('scripts')
 @endsection
 @endsection
-</div>

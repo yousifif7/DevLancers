@@ -82,9 +82,25 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="formFile" class="form-label"><strong>Thumbnail / logo</strong></label>
-                        <input class="form-control" type="file" id="formFile" name="image"
-                            value="{{ old('image') }}">
+                        <label for="formImages" class="form-label"><strong>Images</strong> <small class="text-muted">(up to 6 — JPG, PNG, WebP)</small></label>
+                        <input class="form-control" type="file" id="formImages" name="images[]" accept="image/jpeg,image/png,image/webp" multiple>
+                        @error('images')
+                            <p class="text-danger">{{ $message }}</p>
+                        @enderror
+                        @error('images.*')
+                            <p class="text-danger">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="formAttachments" class="form-label"><strong>Attachments</strong> <small class="text-muted">(up to 5 — PDF, DOC, ZIP, etc.)</small></label>
+                        <input class="form-control" type="file" id="formAttachments" name="attachments[]" multiple>
+                        @error('attachments')
+                            <p class="text-danger">{{ $message }}</p>
+                        @enderror
+                        @error('attachments.*')
+                            <p class="text-danger">{{ $message }}</p>
+                        @enderror
                     </div>
                     <br>
 
